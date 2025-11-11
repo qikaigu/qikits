@@ -1,0 +1,36 @@
+# .pre-commit-config.yaml
+# To use:
+# 1. pip install pre-commit
+# 2. pre-commit install
+
+repos:
+-   repo: https://github.com/astral-sh/uv-pre-commit
+    # uv version.
+    rev: 0.9.8
+    hooks:
+    -   id: uv-lock
+
+-   repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.14.4 # Use the latest ruff version
+    hooks:
+        # Run the linter and fix anything fixable
+        -   id: ruff-check
+            types_or: [ python, pyi ]
+            args: [ --fix ]
+        # Run the formatter
+        -   id: ruff-format
+            types_or: [ python, pyi ]
+
+-   repo: https://github.com/pre-commit/mirrors-mypy
+    rev: v1.18.2 # Use the latest mypy version
+    hooks:
+    -   id: mypy
+        # You may need to add arguments here depending on your project structure
+        args: [--config-file=python/pyproject.toml]
+        # Mypy needs your dependencies installed to run correctly.
+        additional_dependencies: [
+          # List any third-party types your code uses, e.g.:
+          'pyspark-stubs',
+          'pytest',
+          'scipy-stubs',
+        ]

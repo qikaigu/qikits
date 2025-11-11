@@ -1,0 +1,41 @@
+# .github/workflows/ci.yml
+name: CI
+
+on: [push, pull_request]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        # Run on multiple Python versions to ensure compatibility
+        python-version: ["3.9", "3.10", "3.11", "3.12"]
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v4
+      with:
+        python-version: ${{ matrix.python-version }}
+        cache: 'pip' # Cache dependencies for faster runs
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install ruff mypy
+        pip install -e . # Install qikits in editable mode with its own dependencies
+
+    - name: Lint with ruff
+      run: |
+        ruff check .
+        ruff format --check . # --check fails if files need formatting
+
+    - name: Type check with mypy
+      run: |
+        mypy src/qikits
+
+    - name: Test with pytest
+      run: |
+        pip install pytest
+        pytest

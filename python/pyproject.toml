@@ -1,0 +1,212 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "qikits"
+version = "0.1.0"
+authors = [
+  { name="Qikai Gu", email="qikai.gu88@gmail.com" },
+]
+description = "A toolkit of curated algorithms, data structures, and reusable code snippets."
+readme = "python/README.md"
+requires-python = ">=3.10.1, <4"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Operating System :: OS Independent",
+]
+license = "MIT"
+license-files = ["../LICEN[CS]E*"]
+
+# 1. CORE DEPENDENCIES
+# Dependencies required for the library to function.
+# Keep this list as minimal as possible.
+dependencies = [
+    "pyspark>=3.0.0",
+]
+
+[project.urls]
+Homepage = "https://github.com/qikaigu/qikits"
+Issues = "https://github.com/qikaigu/qikits/issues"
+
+# 2. OPTIONAL DEPENDENCIES
+# Grouped by function: test, lint, docs, etc.
+[dependency-groups]
+lint = [
+    "ruff",
+    "mypy>=1.0",
+]
+test = [
+    "pytest>=7.0",
+    "pytest-cov",              # For checking test coverage
+    "scipy",                   # For scientific computing in tests
+    "scipy-stubs",             # Type stubs for scipy
+]
+dev = [
+    "qikits", # Installs the package in editable mode
+    "jupyter", # For notebooks
+    "build", # For building the package
+    "twine", # For uploading to PyPI
+    "pre-commit>=4.3.0",
+    {include-group = "lint"},
+    {include-group = "test"},
+]
+
+# You can also keep your tool configurations here
+[tool.ruff]
+line-length = 88
+src = ["src", "tests"]
+
+[tool.ruff.format]
+docstring-code-format = true
+quote-style = "double"
+
+[tool.ruff.lint]
+# NOTE: Synchoronize the ignores with .flake8
+external = [
+    "B001",
+    "B902",
+    "B950",
+    "E121",
+    "E122",
+    "E128",
+    "E131",
+    "E704",
+    "E723",
+    "F723",
+    "F812",
+    "P201",
+    "P204",
+    "T484",
+    "TOR901",
+]
+ignore = [
+    # these ignores are from flake8-bugbear; please fix!
+    "B007", "B008", "B017",
+    "B018", # Useless expression
+    "B023",
+    "B028", # No explicit `stacklevel` keyword argument found
+    "E402",
+    "C408", # C408 ignored because we like the dict keyword argument syntax
+    "E501", # E501 is not flexible enough, we're using B950 instead
+    "E741",
+    "EXE001",
+    "F405",
+    "FURB122", # writelines
+    # these ignores are from ruff NPY; please fix!
+    "NPY002",
+    # these ignores are from ruff PERF; please fix!
+    "PERF203",
+    "PERF401",
+    # these ignores are from PYI; please fix!
+    "PYI024",
+    "PYI036",
+    "PYI041",
+    "PYI056",
+    "SIM102", "SIM103", "SIM112", # flake8-simplify code styles
+    "SIM105", # these ignores are from flake8-simplify. please fix or ignore with commented reason
+    "SIM108", # SIM108 ignored because we prefer if-else-block instead of ternary expression
+    "SIM110", # Checks for for loops that can be replaced with a builtin function, like any or all.
+    "SIM114", # Combine `if` branches using logical `or` operator
+    "SIM115", # Checks for cases where files are opened without using a context manager.
+    "SIM116", # Disable Use a dictionary instead of consecutive `if` statements
+    "SIM117",
+    "SIM118",
+    "SIM300", # Yoda condition detected
+    "UP007", # keep-runtime-typing
+    "UP045", # keep-runtime-typing
+    "TC006",
+    # TODO: Remove Python-3.10 specific suppressions
+    "B905",
+]
+select = [
+    "B",
+    "B904", # Re-raised error without specifying the cause via the from keyword
+    "C4",
+    "G",
+    "E",
+    "EXE",
+    "F",
+    "I",
+    "SIM",
+    "W",
+    # Not included in flake8
+    "FURB",
+    "LOG",
+    "NPY",
+    "PERF",
+    "PGH004",
+    "PIE",
+    "PLC0131", # type bivariance
+    "PLC0132", # type param mismatch
+    "PLC1802", # len({expression}) used as condition without comparison
+    "PLC0205", # string as __slots__
+    "PLC3002", # unnecessary-direct-lambda-call
+    "PLC0414", # Import alias does not rename original package
+    "PLE",
+    "PLR0133", # constant comparison
+    "PLR0206", # property with params
+    "PLR1722", # use sys exit
+    "PLR1736", # unnecessary list index
+    "PLW0127", # Self-assignment of variable
+    "PLW0129", # assert on string literal
+    "PLW0131", # named expr without context
+    "PLW0133", # useless exception statement
+    "PLW0245", # super without brackets
+    "PLW0406", # import self
+    "PLW0711", # binary op exception
+    "PLW1501", # bad open mode
+    "PLW1507", # shallow copy os.environ
+    "PLW1509", # preexec_fn not safe with threads
+    "PLW2101", # useless lock statement
+    "PLW3301", # nested min max
+    "PT006", # TODO: enable more PT rules
+    "PT014", # duplicate parameterize case
+    "PT022",
+    "PT023",
+    "PT024",
+    "PT025",
+    "PT026",
+    "PYI",
+    "Q003",  # avoidable escaped quote
+    "Q004",  # unnecessary escaped quote
+    "RSE",
+    "RUF007", # pairwise over zip
+    "RUF008", # mutable dataclass default
+    "RUF013", # ban implicit optional
+    "RUF015", # access first ele in constant time
+    "RUF016", # type error non-integer index
+    "RUF017",
+    "RUF018", # no assignment in assert
+    "RUF019", # unnecessary-key-check
+    "RUF020", # never union
+    "RUF024", # from keys mutable
+    "RUF026", # default factory kwarg
+    "RUF030", # No print statement in assert
+    "RUF033", # default values __post_init__ dataclass
+    "RUF041", # simplify nested Literal
+    "RUF048", # properly parse `__version__`
+    "RUF200", # validate pyproject.toml
+    "S324", # for hashlib FIPS compliance
+    "SLOT",
+    "TC",
+    "TRY002", # ban vanilla raise (todo fix NOQAs)
+    "TRY203",
+    "TRY401", # verbose-log-message
+    "UP",
+    "YTT",
+]
+
+[tool.ruff.lint.pyupgrade]
+# Preserve types, even if a file imports `from __future__ import annotations`.
+keep-runtime-typing = true
+
+[tool.ruff.lint.per-file-ignores]
+"__init__.py" = [
+    "F401",
+]
+"*.pyi" = [
+    "PYI011", # typed-argument-default-in-stub
+    "PYI021", # docstring-in-stub
+    "PYI053", # string-or-bytes-too-long
+]
