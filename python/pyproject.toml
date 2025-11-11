@@ -16,7 +16,7 @@ classifiers = [
     "Operating System :: OS Independent",
 ]
 license = "MIT"
-license-files = ["../LICEN[CS]E*"]
+license-files = ["LICEN[CS]E*"]
 
 # 1. CORE DEPENDENCIES
 # Dependencies required for the library to function.
