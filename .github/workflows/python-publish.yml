@@ -27,10 +27,13 @@ jobs:
           python-version: "3.x"
 
       - name: Build release distributions
+        working-directory: python
         run: |
-          # NOTE: put your own distribution build steps here.
-          python -m pip install build
-          python -m build
+          # Install uv and use it to build the project
+          python -m pip install --upgrade pip
+          python -m pip install uv
+          # Build distributions using uv
+          uv build
 
       - name: Upload distributions
         uses: actions/upload-artifact@v4
