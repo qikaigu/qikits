@@ -55,7 +55,6 @@ dev = [
 # You can also keep your tool configurations here
 [tool.ruff]
 line-length = 88
-src = ["src", "tests"]
 
 [tool.ruff.format]
 docstring-code-format = true
