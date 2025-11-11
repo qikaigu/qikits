@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "qikits"
-version = "0.1.0"
+version = "0.1.1"
 authors = [
   { name="Qikai Gu", email="qikai.gu88@gmail.com" },
 ]
