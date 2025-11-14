@@ -7,6 +7,19 @@ Install
 
 `pip install qikits`
 
+What does the toolkit contain?
+------------------------------
+
+### A deterministic weighted sampling without replacement in PySpark
+
+```python
+from qikits.sampling.weighted_sampling import weighted_sample
+
+sampled_df = weighted_sample(df, k=5, weight_col="weight", id_columns="id")
+```
+
+More details in [this notebook](notebooks/sampling/pyspark_weighted_sampling.ipynb).
+
 Development
 -----------
 
